@@ -2,10 +2,8 @@
 ##1. Duas classes, uma delas usando objetos da outra.
 ##2. Atributos fechados (private em Java, _ em Python), acessados por getters e
 ##setters ou properties.
-##3. Construtor que exige os dados indispensáveis e reaproveita os setters para
-validar.
-##4. Duas formas de criar o objeto: sobrecarga em Java ou parâmetros padrão em
-Python.
+##3. Construtor que exige os dados indispensáveis e reaproveita os setters para validar.
+##4. Duas formas de criar o objeto: sobrecarga em Java ou parâmetros padrão em Python.
 ##5. Pelo menos duas regras de validação que recusem valores inválidos.
 ##6. A demonstração roda e mostra uma criação válida, uma recusa e as duas
 ##formas de criação.

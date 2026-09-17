@@ -1,0 +1,137 @@
+#criando uma e-comerce bem básica online
+
+class Produto:
+
+    def __init__(
+        self, nome="Produto Genérico ", preco=0.01, quilo=0.00, estoque=0
+    ):
+        self.nome = nome
+        self.preco = preco
+        self.quilo = quilo
+        self.estoque = estoque
+
+    @property
+    def nome(self):
+        return self._nome
+
+    @nome.setter
+    def nome(self, valor):
+        if valor and valor.strip():
+            self._nome = valor.strip()
+        else:
+            print("Erro: O nome do produto não pode ser vazio.")
+            self._nome = "Produto Indefinido"
+
+    @property
+    def preco(self):
+        return self._preco
+
+    @preco.setter
+    def preco(self, valor):
+        if valor > 0:
+            self._preco = float(valor)
+        else:
+            print(
+                "Erro: Preço inválido (R$",
+                valor,
+                "). Ajustado para R$ 0.01.",
+            )
+            self._preco = 0.01
+
+    @property
+    def quilo(self):
+        return self._quilo
+
+    @quilo.setter
+    def quilo(self, peso):
+        if peso > 0:
+            self._quilo = float(peso)
+        else:
+            print("Erro: Peso inválido (", peso, "). Ajustado para 0.00 Kg.")
+            self._quilo = 0.00
+
+    @property
+    def estoque(self):
+        return self._estoque
+
+    @estoque.setter
+    def estoque(self, valor):
+        if valor >= 0:
+            self._estoque = int(valor)
+        else:
+            print("Erro: Estoque inválido (", valor, "). Ajustado para 0.")
+            self._estoque = 0
+
+
+class CarrinhoDeCompras:
+
+    def __init__(self):
+        self._itens = []
+
+    def adicionar_produto(self, produto, quantidade=1):
+        if quantidade <= 0:
+            print("Erro: A quantidade a adicionar deve ser maior que zero.")
+            return
+
+        if produto.estoque >= quantidade:
+            self._itens.append((produto, quantidade))
+            print(
+                "-> Adicionado ao carrinho:",
+                quantidade,
+                "x '" + produto.nome + "'",
+            )
+        else:
+            print(
+                "-> Erro: Estoque insuficiente de '" + produto.nome + "'.",
+                "Disponível:",
+                produto.estoque,
+                "unidades.",
+            )
+
+    def calcular_total(self):
+        total = 0.0
+        for produto, quantidade in self._itens:
+            total += produto.preco * quantidade
+        return total
+
+    def exibir_resumo(self):
+        print("\n" + "=" * 40)
+        print("          RESUMO DO CARRINHO          ")
+        print("=" * 40)
+        if not self._itens:
+            print("Carrinho vazio.")
+            return
+
+        for produto, quantidade in self._itens:
+            subtotal = produto.preco * quantidade
+            print("• " + produto.nome + " (" + str(produto.quilo) + " Kg) | Qtd: " + str(quantidade) 
+                  + " | Un: R$ %.2f" % produto.preco
+                  + " | Subtotal: R$ %.2f" % subtotal )
+
+        print("-" * 40)
+        print("TOTAL DA COMPRA: R$ %.2f" % self.calcular_total())
+        print("=" * 40)
+
+
+if __name__ == "__main__":
+    print("=== 1. TESTANDO RECUSA DE VALORES INVÁLIDOS ===")
+    p_invalido = Produto(nome="", preco=-15.0, quilo=-1.0, estoque=-3)
+
+    print("\n=== 2. VITRINE ===")
+
+    produto1 = Produto("Bolo Matilda", 70.90, 2.0, 10)
+    produto2 = Produto("Torta de Limão", 60.90, 1.5, 5)
+    produto3 = Produto("Costelinha Defumada", 76.00, 0.5, 2)
+    
+    print(produto1.nome,"(", produto1.quilo, "Kg)","| R$", produto1.preco, produto1.estoque, "unidades;")
+    print(produto2.nome,"(", produto2.quilo, "Kg)","| R$", produto2.preco, produto2.estoque, "unidades;")
+    print(produto3.nome,"(", produto2.quilo, "Kg)","| R$", produto3.preco, produto3.estoque, "unidades;")
+    
+    print("\n=== 3. OPERAÇÕES NO CARRINHO DE COMPRAS ===")
+    carrinho = CarrinhoDeCompras()
+
+    carrinho.adicionar_produto(produto1, 2)
+    carrinho.adicionar_produto(produto2, 1)
+    carrinho.adicionar_produto(produto3, 3)
+
+    carrinho.exibir_resumo()
